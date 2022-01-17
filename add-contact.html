@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width-device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+        
+    <title></title>
+        
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/editcss.css">
+    <link href="fontAwesome/css/all.css" rel="stylesheet">
+    </head>
+     <header class="header">
+
+		</header>
+    <body>
+        <br/>
+   <form id="editform" action="" style="width: 500px; margin: auto">
+        <label for="firstname">First name</label>
+        <input class="form-control" type="text" name="firstname" id="firstname"><br/>
+        <label for="lastname">Last name</label>
+        <input class="form-control" type="text" name="lastname" id="lastname"><br/>
+        <label for="mobile">Mobile</label>
+        <input class="form-control" type="text" name="mobile" id="mobile"><br/>
+        <label for="email">Email</label>
+        <input class="form-control" type="text" name="email" id="email"><br/>
+        <label for="avatar">Select a file</label>
+        <input class="form-control" type="file" name="avatar" id="avatar"><br/>
+        
+    </form>
+    <br/>
+        <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-primary" id="submitForm">Submit</button>
+        <button id="homeLink" class="btn btn-primary" type="button">Home</button>
+        </div>
+        
+        <script src="config.js"></script>
+        <script>
+            document.getElementById("submitForm").addEventListener('click',submitForm);
+            document.getElementById("homeLink").addEventListener('click', homeLink);
+            
+            
+        //submits new contact
+            function submitForm(e){
+                e.preventDefault();
+                
+                const form = new FormData(document.querySelector(`#editform`));
+                form.append(`apiKey`, apiKey);
+                
+                fetch(rootPath + 'controller/insert-contact/', {
+                    method: 'POST',
+                    headers: {'Accept': 'application/json, *.*'},
+                    body: form
+                })
+                
+                .then(function(response){
+                    return response.text();
+                })
+                
+                .then(function(data){
+                    if(data == "1"){
+                        alert("Contact added.");
+                        homeLink();
+                    }else{
+                        alert(data);
+                        homeLink();
+                    }
+                })
+            }
+            
+            //returns to home page
+            function homeLink(){
+                window.open("index.html", "_self");
+            }
+        
+            
+        
+        </script>     
+    </body> 
+</html>
